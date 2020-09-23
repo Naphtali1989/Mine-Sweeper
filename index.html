@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naphtali's Mine Sweeper!</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="initGame()">
+
+    <div>
+        <div class="header">
+            <div class="flags-left">Flags left: <span>2</span></div>
+            <button class="reset-game" onclick="initGame()"></button>
+            <div class="timer">Timer: <span>000</span></div>
+        </div>
+
+        <div class="misc">
+            <div class="lives">lives</div>
+            <div class="hints" onclick="revealHint(this)">hints</div>
+        </div>
+
+        <table>
+            <tbody class="mine-field" oncontextmenu="return false;"></tbody>
+        </table>
+
+        <div class="difficulties">
+            <button onclick="changeDiff(4, 2)" class="easy-button">Easy</button>
+            <button onclick="changeDiff(8, 12)" class="normal-button">Normal</button>
+            <button onclick="changeDiff(12, 30)" class="heroic-button">Heroic</button>
+        </div>
+
+        <div class="best-score">best-score</div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/misc.js"></script>
+    <script src="js/util.js"></script>
+
+</body>
+
+</html>

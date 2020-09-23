@@ -1,0 +1,68 @@
+/* background: url("images/card-back.jpg") no-repeat; */
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+img {
+    width: 40px;
+    height: 40px;
+}
+
+.flags-left {
+    float: left;
+    text-align: center;
+    background-color: rgb(192, 235, 210);
+    width: 85px;
+    height: 50px;
+}
+
+.reset-game {
+    float: none;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.timer {
+    float: right;
+    text-align: center;
+    background-color: rgb(192, 235, 210);
+    width: 85px;
+    height: 50px;
+}
+
+.misc {
+    position: relative;
+    height: 50px;
+    text-align: center;
+}
+
+.difficulties {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.cell {
+    border: 1px solid black;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.covered {
+    background-color: darkgrey;
+}
+
+.lives {
+    float: left;
+    text-align: center;
+}
+
+.hints {
+    float: right;
+    text-align: center;
+}
