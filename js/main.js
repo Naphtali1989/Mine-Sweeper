@@ -83,7 +83,7 @@ function renderBoard(board) {
 function checkClick(elCell, ev, i, j) {
     if (gGame.isOver) return;
 
-    if (gGame.isHintActive) {
+    if (gGame.isHintActive && gGame.hint > 0) {
         return revealNegs(gBoard, i, j); // WIP
     }
 
@@ -123,7 +123,7 @@ function cellClicked(elCell, i, j) {
         if (gGame.life === 0) renderCell(location, MINE_BLACK);
         if (gGame.life > 0) {
             gGame.life -= 1;
-            var elLife = document.querySelector('.lives');
+            var elLife = document.querySelector('.lives span');
             elLife.innerText = gGame.life
                 // play sound?
             return;
@@ -202,6 +202,12 @@ function expandShown(board, elCell, i, j) {
 }
 
 function revealHint(el) { // WIP
+    if (gGame.hint === 0) return
+    var elHint = document.querySelector('.hints span')
     console.log('revealing a hint!');
     gGame.isHintActive = true;
+    console.log('elHint is:', elHint);
+    gGame.hint -= 1;
+
+    return elHint.innerHTML = gGame.hint;
 }
