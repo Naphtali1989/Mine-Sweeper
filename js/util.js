@@ -11,7 +11,7 @@ function getClassName(location) {
     return cellClass;
 }
 
-function setMinesNegsCount(board, rowIdx, colIdx) {
+function setMinesNegsCount(board, rowIdx, colIdx) { // neighbores counter
     var count = 0;
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
         if (i < 0 || i > board.length - 1) continue;

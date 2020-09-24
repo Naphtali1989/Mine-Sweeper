@@ -6,28 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naphtali's Mine Sweeper!</title>
     <link rel="stylesheet" href="css/main.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 </head>
 
 <body onload="initGame()">
 
     <div>
         <div class="header">
-            <div class="flags-left">Flags left: <span>2</span></div>
+            <div class="flags-left">
+                <h4>Flags left: <span></span></h4>
+            </div>
             <button class="reset-game" onclick="initGame()"></button>
-            <div class="timer">Timer: <span>000</span></div>
+            <div class="timer">
+                <h4>
+                    Timer: <span></span>
+                </h4>
+            </div>
         </div>
 
         <div class="misc">
             <div class="lives">
-                <h2>Lives: <span>3</span></h2>
+                <span></span>
 
             </div>
-            <div class="hints" onclick="revealHint(this)">
-                <h2>Hints: <span>3</span></h2>
+
+            <div class="hints" onclick="manageHint()">
+                <span></span>
             </div>
+
+
         </div>
 
         <table>
+
             <tbody class="mine-field" oncontextmenu="return false;"></tbody>
         </table>
 
@@ -37,7 +48,23 @@
             <button onclick="changeDiff(12, 30)" class="heroic-button">Heroic</button>
         </div>
 
-        <div class="best-score">best-score</div>
+        <div>
+            <button class="safe-click" onclick="randomizeSafeBlock()">
+                Safe-Click available: <span></span>
+            </button>
+            <div class="modal">
+                <p>You have <span></span> mines left to place!</p>
+            </div>
+            <button onclick="toggleManualMode()" class="manual-position">Enter manual mode</button>
+
+            <button class="undo" onclick="undo()"> Undo </button>
+        </div>
+
+        <div class="best-score">best-score
+            <table>
+                <tbody class="high-scores"></tbody>
+            </table>
+        </div>
     </div>
 
     <script src="js/main.js"></script>
