@@ -204,8 +204,6 @@ function checkGameOver(row, col) {
         gGame.isOver = true;
         elBtn.innerHTML = WINNER;
         playVictorySound();
-        var name = prompt('What is your name?')
-        localStorage.setItem('Easy', name);
     }
     return false;
 }
