@@ -6,15 +6,17 @@ body {
 
 table {
     border: 1px solid black;
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
     margin: auto;
     text-align: center;
 }
-
+table:hover{
+    cursor: pointer;
+}
 img {
     text-align: center;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 }
 
 .header {
@@ -38,6 +40,9 @@ img {
     margin: auto;
     text-align: center;
 }
+.reset-game:hover{
+    cursor: pointer;
+}
 
 .timer {
     float: right;
@@ -59,17 +64,25 @@ img {
     padding-left: 15px;
     float: left;
 }
+.safe-click:hover{
+    cursor: pointer;
+}
 
 .undo {
     padding-right: 15px;
     float: right;
 }
-
+.undo:hover{
+    cursor: pointer;
+}
 .manual-position {
     margin-top: 15px;
     border-radius: 15px;
     width: 100px;
     height: 40px;
+}
+.manual-position:hover{
+    cursor: pointer;
 }
 
 .undo,
@@ -80,8 +93,8 @@ img {
     text-align: center;
     text-decoration: aliceblue;
     border-radius: 12px;
-    width: 135px;
-    height: 55px;
+    width: 155px;
+    height: 85px;
 }
 
 .difficulties {
@@ -91,8 +104,8 @@ img {
 
 .cell {
     border: 1px solid black;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     background-color: lightgray;
 }
@@ -121,11 +134,19 @@ img {
     height: 50px;
 }
 
+.hints:hover{
+    cursor: pointer;
+}
+
 .difficulties button {
     border-radius: 12px;
     margin: 45px;
     width: 105px;
     height: 45px;
+}
+
+.difficulties button:hover{
+    cursor: pointer;
 }
 
 .modal {

@@ -29,9 +29,13 @@ function renderCellShown(location, value) {
     var cell = gBoard[location.i][location.j];
     var cellSelector = '.' + getClassName(location);
     var elCell = document.querySelector(cellSelector);
+
     elCell.classList.remove('covered');
     elCell.innerHTML = value;
-    if (!cell.isShown) gGame.shownCount += 1;
+    if (!cell.isShown) {
+        getPrevLocations(location);
+        gShownCount++;
+    }
     cell.isShown = true;
 }
 
@@ -39,6 +43,7 @@ function setMines(board, rowIdx, colIdx) {
     var minesToPlace = gLevel.MINES;
     while (minesToPlace > 0) {
         if (gGame.isManual) break;
+
         gFirstClick = { i: rowIdx, j: colIdx }
         var randEmptyCell = getRandEmptyCell();
         board[randEmptyCell.i][randEmptyCell.j].isMine = true;
@@ -110,7 +115,7 @@ function renderRevealedCell(location, value) {
 function renderLives() {
     var elLifeCount = document.querySelector('.lives span');
     var strHTML = '';
-    for (var i = 0; i < gGame.lifesCount; i++) {
+    for (var i = 0; i < gLifeCount; i++) {
         strHTML += LIVES;
     }
     elLifeCount.innerHTML = strHTML;
@@ -118,16 +123,20 @@ function renderLives() {
 
 function renderFlags() {
     var elFlagCount = document.querySelector('.flags-left span');
-
     elFlagCount.innerHTML = gGame.markedCount;
+}
+
+function renderSafeClicks() {
+    var elSafeClickCount = document.querySelector('.safe-click span');
+    elSafeClickCount.innerHTML = gSafeClickCount;
 }
 
 function renderHints() {
     var elHintCounter = document.querySelector(`.hints span`);
     var strHTML = '';
-    for (var i = 0; i < gGame.hintsCount; i++) {
+    for (var i = 0; i < gHintsCount; i++) {
         strHTML += (i === 0 && gGame.isHintActive) ? HINTS_ON : HINTS_OFF;
-        if (gGame.hintsCount === 1) break;
+        if (gHintsCount === 1) break;
     }
     elHintCounter.innerHTML = strHTML;
 }
@@ -155,4 +164,28 @@ function playSadSound() {
 function playExplosionSound() {
     var sound = new Audio("sound/explode.mp3");
     sound.play();
+}
+
+function createCurrGameCondition() {
+    var tempGame = {
+        isOver: gGame.isOver,
+        isOn: gGame.isOn,
+        isManual: gGame.isManual,
+        isHintActive: gGame.isHintActive,
+        isSafeOn: gGame.isSafeOn,
+        // shownCount: gGame.shownCount,
+        minesToPlace: gGame.minesToPlace,
+        markedCount: gGame.markedCount,
+        secsPassed: gGame.secsPassed + 1,
+        face: gGame.face
+    }
+
+    return tempGame;
+}
+
+function getPrevLocations(location) {
+    var rowIdx = location.i;
+    var colIdx = location.j;
+    var prevStep = { i: rowIdx, j: colIdx };
+    gLastMoves.push(prevStep);
 }

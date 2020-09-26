@@ -24,3 +24,13 @@ function setMinesNegsCount(board, rowIdx, colIdx) { // neighbores counter
     }
     return count;
 }
+
+function deepCopyMat(mat) {
+    var copyMat = [];
+    for (var i = 0; i < mat.length; i++) {
+        var rowPointer = mat[i];
+        var rowCopy = rowPointer.slice();
+        copyMat[i] = rowCopy;
+    }
+    return copyMat;
+}
