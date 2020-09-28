@@ -27,7 +27,7 @@ var gLevel = {
 var gGame = {};
 
 var gDifficulty;
-
+var gSecsPassed;
 var gShownCount;
 var gLifeCount;
 var gHintsCount;
@@ -49,9 +49,9 @@ function initGame() {
         isSafeOn: false,
         minesToPlace: gLevel.MINES,
         markedCount: gLevel.MINES,
-        secsPassed: 0,
         face: HAPPY
     };
+    gSecsPassed = 0;
     gShownCount = 0;
     gLifeCount = 3;
     gHintsCount = 3;
@@ -399,7 +399,7 @@ function createNewWinnerStr() {
             break;
     }
     var currScoreStr = localStorage.getItem(`Winners-${difficulty}`)
-    var time = gGame.secsPassed;
+    var time = gSecsPassed;
     var name = prompt('Hero, What is your name?'); // 'Naphtali'; // add a prompt later
     var winner = `${name},${time},${difficulty};`
 

@@ -4,8 +4,8 @@ var gFirstClick = {};
 
 function showTimer() {
     var elTimer = document.querySelector('.timer span');
-    elTimer.innerText = gGame.secsPassed;
-    gGame.secsPassed += 1;
+    elTimer.innerText = gSecsPassed;
+    gSecsPassed += 1;
 }
 
 function changeDiff(size, mines) {
@@ -176,7 +176,6 @@ function createCurrGameCondition() {
         isSafeOn: gGame.isSafeOn,
         minesToPlace: gGame.minesToPlace,
         markedCount: gGame.markedCount,
-        secsPassed: gGame.secsPassed + 1,
         face: gGame.face
     }
 
