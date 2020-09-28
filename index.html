@@ -12,35 +12,53 @@
 <body onload="initGame()">
 
     <div>
-        <div class="header">
+        <div class="left-side">
+
             <div class="flags-left">
                 <h4>Flags left: <span></span></h4>
             </div>
-            <button class="reset-game" onclick="initGame()"></button>
+
+            <div class="lives">
+                <h4>Lives:</h4>
+                <span></span>
+            </div>
+
+            <button class="safe-click" onclick="randomizeSafeBlock()">
+                Safe-Click available: <span></span>
+            </button>
+
+        </div>
+
+        <button class="reset-game" onclick="initGame()"></button>
+
+        <div class="right-side">
+
             <div class="timer">
                 <h4>
                     Timer: <span></span>
                 </h4>
             </div>
-        </div>
-
-        <div class="misc">
-            <div class="lives">
-                <span></span>
-
-            </div>
 
             <div class="hints" onclick="manageHint()">
+                <h4>Hints:</h4>
                 <span></span>
             </div>
 
-
+            <button class="undo" onclick="undo()">Undo</button>
         </div>
 
-        <table>
+    </div>
 
+    <div>
+
+        <table class="game-table">
             <tbody class="mine-field" oncontextmenu="return false;"></tbody>
         </table>
+
+    </div>
+
+    <div>
+        <button onclick="toggleManualMode()" class="manual-position">Toggle manual mode</button>
 
         <div class="difficulties">
             <button onclick="changeDiff(4, 2)" class="easy-button">Easy</button>
@@ -48,20 +66,13 @@
             <button onclick="changeDiff(12, 30)" class="heroic-button">Heroic</button>
         </div>
 
-        <div>
-            <button class="safe-click" onclick="randomizeSafeBlock()">
-                Safe-Click available: <span></span>
-            </button>
-            <div class="modal">
-                <p>You have <span></span> mines left to place!</p>
-            </div>
-            <button onclick="toggleManualMode()" class="manual-position">Enter manual mode</button>
-
-            <button class="undo" onclick="undo()"> Undo </button>
+        <div class="modal">
+            <p>You have <span></span> mines left to place!</p>
         </div>
 
-        <div class="best-score">best-score
-            <table>
+        <div class="high-scores-div">
+            <h1>High Scores</h1>
+            <table class="high-scores-table">
                 <tbody class="high-scores"></tbody>
             </table>
         </div>

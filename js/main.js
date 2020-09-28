@@ -1,19 +1,19 @@
 'use strict';
 
-const LIVES = '<img src="imgs/life.png">';
-const HINTS_ON = '<img src="imgs/bulbon.png">';
-const HINTS_OFF = '<img src="imgs/bulboff.png">';
+const LIVES = '<img class="misc-img" src="imgs/life.png">';
+const HINTS_ON = '<img class="misc-img" src="imgs/bulbon.png">';
+const HINTS_OFF = '<img class="misc-img" src="imgs/bulboff.png">';
 
 const MINE_BLACK = '<img src="imgs/mineblack.png">';
 const MINE_RED = '<img src="imgs/minered.png">';
 const FLAG = '<img src="imgs/flag.png">';
 
-const HAPPY = '<img src="imgs/happy.png">';
-const SAD = '<img src="imgs/sad.png">';
-const SHOCKED = '<img src="imgs/shocked.png">';
-const WINNER = '<img src="imgs/winner.png">';
+const HAPPY = '<img class="smiley" src="imgs/happy.png">';
+const SAD = '<img class="smiley" src="imgs/sad.png">';
+const SHOCKED = '<img class="smiley" src="imgs/shocked.png">';
+const WINNER = '<img class="smiley" src="imgs/winner.png">';
 
-var gLocalStorageIdx;
+// localStorage.clear()
 
 var gTempIdx = 0;
 var gLastMoves = [];
@@ -25,12 +25,14 @@ var gLevel = {
     MINES: 2
 };
 var gGame = {};
+
+var gDifficulty;
+
 var gShownCount;
 var gLifeCount;
 var gHintsCount;
 var gSafeClickCount;
 var gGameInterval;
-
 
 
 function initGame() {
@@ -45,7 +47,6 @@ function initGame() {
         isManual: false,
         isHintActive: false,
         isSafeOn: false,
-        // shownCount: 0,
         minesToPlace: gLevel.MINES,
         markedCount: gLevel.MINES,
         secsPassed: 0,
@@ -63,6 +64,11 @@ function initGame() {
 
     gBoard = buildBoard();
     renderBoard(gBoard);
+    gDifficulty = 'Easy';
+    if (gLevel.MINES === 12) gDifficulty = 'Normal';
+    if (gLevel.MINES === 30) gDifficulty = 'Heroic';
+
+    renderWinners(gDifficulty);
 }
 
 function buildBoard() {
@@ -221,14 +227,15 @@ function checkGameOver(row, col) {
         playSadSound();
 
     }
-    if (gShownCount === ((gLevel.SIZE ** 2) - gLevel.MINES) &&
-        gGame.markedCount === 0) {
+    if (gShownCount === ((gLevel.SIZE ** 2) - gLevel.MINES) && gGame.markedCount === 0) {
         clearInterval(gGameInterval)
         gGame.isOver = true;
         elBtn.innerHTML = WINNER;
-        renderBoard(gBoard)
         playVictorySound();
-        createWinnerStr();
+        setTimeout(function() {
+            createNewWinnerStr();
+            renderWinners(gDifficulty);
+        }, 1000)
     }
     return false;
 }
@@ -295,7 +302,7 @@ function unMarkSafeSpot() {
 
 function toggleManualMode() {
     if (gGame.isOn) return;
-    gGame.isManual = true;
+    gGame.isManual = !gGame.isManual;
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard.length; j++) {
             var cell = gBoard[i][j];
@@ -308,7 +315,6 @@ function toggleManualMode() {
 
     var elModal = document.querySelector('.modal');
     elModal.classList.toggle('show');
-
 }
 
 function placeMines(rowIdx, colIdx) {
@@ -326,29 +332,28 @@ function placeMines(rowIdx, colIdx) {
     elModalSpan.innerText = gGame.minesToPlace;
 
     if (gGame.minesToPlace === 0) {
-        for (var i = 0; i < gBoard.length; i++) {
-            for (var j = 0; j < gBoard.length; j++) {
-                gBoard[i][j].minesAroundCount = setMinesNegsCount(gBoard, i, j);
+        setTimeout(function() {
+            for (var i = 0; i < gBoard.length; i++) {
+                for (var j = 0; j < gBoard.length; j++) {
+                    gBoard[i][j].minesAroundCount = setMinesNegsCount(gBoard, i, j);
+                }
             }
-        }
-        toggleManualMode();
-        gGameInterval = setInterval(showTimer, 1000);
-        addNumColors();
-        gGame.isOn = true;
+            toggleManualMode();
+            gGameInterval = setInterval(showTimer, 1000);
+            addNumColors();
+            gGame.isOn = true;
+        }, 1000)
     }
 }
 
 function undo() {
-    if (gTempIdx === 0) return;
-    console.log('Undoing!')
+    if (gTempIdx === 0 || gGame.isOver) return;
 
     gTempIdx--;
     gGame = {};
     gGame = gTempLocations[gTempIdx].condition;
     var prevMovesCount = gTempLocations[gTempIdx].steps.length;
     for (var idx = 0; idx < prevMovesCount; idx++) {
-
-        console.log(gGame)
         var i = gTempLocations[gTempIdx].steps[idx].i;
         var j = gTempLocations[gTempIdx].steps[idx].j;
 
@@ -380,12 +385,8 @@ function undo() {
 
 // WIP
 
-
-function createWinnerStr() {
-    console.log(' making a winner!')
-    var time = gGame.secsPassed;
-    var name = 'Naphtali'; // add a prompt later
-    var difficulty = '';
+function createNewWinnerStr() {
+    var difficulty;
     switch (gLevel.MINES) {
         case 2:
             difficulty = 'Easy';
@@ -397,10 +398,70 @@ function createWinnerStr() {
             difficulty = 'Heroic';
             break;
     }
-    var winner = `${difficulty}, ${time}, ${name}`
-    console.log('The winner is:', winner)
-    localStorage.setItem('Winner', winner);
+    var currScoreStr = localStorage.getItem(`Winners-${difficulty}`)
+    var time = gGame.secsPassed;
+    var name = prompt('Hero, What is your name?'); // 'Naphtali'; // add a prompt later
+    var winner = `${name},${time},${difficulty};`
+
+    if (!currScoreStr) {
+        localStorage.setItem(`Winners-${difficulty}`, winner);
+    } else {
+        localStorage.setItem(`Winners-${difficulty}`, currScoreStr + winner);
+    }
 }
 
-var random = localStorage.getItem('Easy')
-console.log(random)
+function organizeWinnersIntoArr(str) {
+    var tempWinners = str.split(';');
+    var winners = [];
+    for (var i = 0; i < tempWinners.length; i++) {
+        if (!tempWinners[i]) break;
+        var currWinnerObj = {};
+        var tempCurrWinner = tempWinners[i];
+        tempCurrWinner = tempCurrWinner.split(',');
+        currWinnerObj = { name: tempCurrWinner[0], time: tempCurrWinner[1], difficulty: tempCurrWinner[2] };
+        winners.push(currWinnerObj);
+    }
+    sortWinners(winners)
+    return winners;
+}
+
+function sortWinners(allWinners) {
+    allWinners.sort(function(a, b) {
+        return a.time - b.time
+    });
+    if (allWinners.length > 5) allWinners.pop();
+}
+
+function changeObjsToStr(objs) {
+    var str = '';
+    for (var i = 0; i < objs.length; i++) {
+        str += `${objs[i].name},${objs[i].time},${objs[i].difficulty};`;
+    }
+    return str;
+}
+
+function renderWinners(difficulty) {
+    var currStorage = localStorage.getItem(`Winners-${difficulty}`);
+    if (!currStorage) return;
+
+    var currWinners = organizeWinnersIntoArr(currStorage);
+    var strHTML = `<tr>
+                <td class="high-score-head">Name</td>
+                <td class="high-score-head">Seconds</td>
+                <td class="high-score-head">difficulty</td>
+                </tr>`;
+    for (var i = 0; i < currWinners.length; i++) {
+        strHTML += '<tr>';
+        for (var key in currWinners[i]) {
+            var value = currWinners[i][key];
+            strHTML += `<td class="high-score-cell">${value}</td>`;
+        }
+        strHTML += '</tr>';
+    }
+
+    var elHighScore = document.querySelector('.high-scores');
+    elHighScore.innerHTML = strHTML;
+
+    var winnersStr = changeObjsToStr(currWinners);
+    localStorage.setItem(`Winners-${difficulty}`, winnersStr);
+}

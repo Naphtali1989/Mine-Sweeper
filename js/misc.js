@@ -9,6 +9,7 @@ function showTimer() {
 }
 
 function changeDiff(size, mines) {
+    if (gGame.isManual) return;
     gLevel.SIZE = size;
     gLevel.MINES = mines;
     initGame();
@@ -173,7 +174,6 @@ function createCurrGameCondition() {
         isManual: gGame.isManual,
         isHintActive: gGame.isHintActive,
         isSafeOn: gGame.isSafeOn,
-        // shownCount: gGame.shownCount,
         minesToPlace: gGame.minesToPlace,
         markedCount: gGame.markedCount,
         secsPassed: gGame.secsPassed + 1,
